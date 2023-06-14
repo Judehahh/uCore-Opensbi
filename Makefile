@@ -76,6 +76,7 @@ build/kernel: $(OBJS)
 	$(LD) $(LDFLAGS) -T os/kernel.ld -o $(BUILDDIR)/kernel $(OBJS)
 	$(OBJDUMP) -S $(BUILDDIR)/kernel > $(BUILDDIR)/kernel.asm
 	$(OBJDUMP) -t $(BUILDDIR)/kernel | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(BUILDDIR)/kernel.sym
+	$(OBJCOPY) --strip-all $(BUILDDIR)/kernel -O binary $(BUILDDIR)/kernel.bin
 	@echo 'Build kernel done'
 
 clean:
@@ -91,7 +92,7 @@ QEMUOPTS = \
 	-nographic \
 	-machine virt \
 	-bios $(BOOTLOADER) \
-	-kernel build/kernel	\
+	-kernel build/kernel.bin	\
 
 run: build/kernel
 	$(QEMU) $(QEMUOPTS)
