@@ -6,6 +6,7 @@
 #include "riscv.h"
 #include "sbi.h"
 #include "types.h"
+#include "string.h"
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x) / sizeof((x)[0]))
